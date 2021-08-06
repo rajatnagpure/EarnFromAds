@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Earn From Ads</string>
+    <string name="your_wallet">Your Wallet</string>
+    <string name="amount">Amount</string>
+    <string name="_0_0">00.00</string>
+    <string name="Rs">Rs. </string>
+    <string name="earn">EARN</string>
+    <string name="redeem">REDEEM</string>
+    <string name="redeem_code">Redeem Code</string>
+    <string name="google_play_recharge">Google Play Recharge</string>
+    <string name="google_play_logo">Google Play Logo</string>
+    <string name="paytm_cash">Paytm Cash</string>
+    <string name="transfer_to_paytm">Transfer To Paytm</string>
+    <string name="coming_soon">Coming Soon!..</string>
+    <string name="video_not_lading">Video Not Lading?..</string>
+    <string name="start_earning">START EARNING!…</string>
+    <string name="watch">Watch</string>
+    <string name="unity_ads">Unity Ads</string>
+    <string name="google_ads">Google Ads</string>
+    <string name="why_video_not_loading">Why video not Loading ?</string>
+    <string name="_1_you_have_watched_maximum_numbers_of_videos">1. You have Watched Maximum numbers of Videos.</string>
+    <string name="_2_in_your_country_maximum_video_watched_by_others">2. In Your Country Maximum Video Watched by Others.</string>
+    <string name="_3_in_your_country_video_service_not_available">3. In Your Country Video Service not Available.</string>
+    <string name="_4_network_issue_at_your_place">4. Network Issue at your place.</string>
+    <string name="how_to_solve">How to Solve ?</string>
+    <string name="_1_download_free_vpn_app">1. Download Free VPN App.</string>
+    <string name="_2_connect_to_usa_server_in_vpn_app">2. Connect to USA Server in VPN App.</string>
+    <string name="_3_then_start_app_again">3. Then Start App Again.</string>
+    <string name="_4_wait_for_a_minute_video_will_load_successfully">4. Wait for a Minute, Video will Load Successfully.</string>
+    <string name="note">Note</string>
+    <string name="if_video_loading_without_vpn_then_use_app_without_vpn_if_video_is_not_loading_then_use_vpn_app">If video loading without VPN, Then use App Without VPN. If video is not loading then use VPN App.</string>
+    <string name="rs_00">Rs. 00</string>
+    <string name="google_play_redeem_code">Google Play Redeem Code</string>
+    <string name="_5_try_another_ad_option">5. Try another Ad option.</string>
+</resources>
