@@ -27,8 +27,9 @@ class Earn : AppCompatActivity() {
     private val testMode = false
     private val surfacingId = "Rewarded_Android"
     private var watchUnityAd: Button? = null
+    private var playQuerkaLiteQuiz: Button? = null
     private var amountText: TextView? = null
-    private var startEarning: TextView? = null
+    private var videoLoading: TextView? = null
     private var sharedPreferences: SharedPreferences? = null
     private var myEdit:SharedPreferences.Editor? = null
 
@@ -45,17 +46,18 @@ class Earn : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
 
-        startEarning = findViewById<TextView>(R.id.start_earning)
+        videoLoading = findViewById<TextView>(R.id.video_ready)
         anim = AlphaAnimation(0.0f, 1.0f)
         anim?.duration = 750
         anim?.startOffset = 20
         anim?.repeatMode = Animation.REVERSE
         anim?.repeatCount = Animation.INFINITE
-        startEarning?.startAnimation(anim)
-        startEarning?.text = "VIDEO LOADING..."
+        videoLoading?.startAnimation(anim)
+        videoLoading?.text = "VIDEO LOADING..."
 
         amountText = findViewById<TextView>(R.id.text_amount)
         watchUnityAd = findViewById<Button>(R.id.button_watch_unity_ad)
+        playQuerkaLiteQuiz = findViewById<Button>(R.id.button_play_querka_quiz)
 
 
         // Unity Ads Part
@@ -85,6 +87,12 @@ class Earn : AppCompatActivity() {
         myEdit!!.apply()
         amountText?.text = "%.2f".format(amount)
     }
+    /////////////////////////////Qureka Lite Quiz Part//////////////////////////
+
+
+
+
+    ///////////////////////////// Unity Ads Part ///////////////////////////////
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish();
@@ -98,8 +106,8 @@ class Earn : AppCompatActivity() {
     }
     private inner class UnityAdsListener : IUnityAdsListener {
         override fun onUnityAdsReady(surfacingId: String) {
-            startEarning?.clearAnimation()
-            startEarning?.text = "VIDEO READY"
+            videoLoading?.clearAnimation()
+            videoLoading?.text = "VIDEO READY"
         }
         override fun onUnityAdsStart(surfacingId: String) {}
         override fun onUnityAdsFinish(surfacingId: String, finishState: FinishState) {

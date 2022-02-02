@@ -32,4 +32,14 @@
     <string name="rs_00">Rs. 00</string>
     <string name="google_play_redeem_code">Google Play Redeem Code</string>
     <string name="_5_try_another_ad_option">5. Try another Ad option.</string>
+    <string name="play">PLAY</string>
+    <string name="play_quiz">Play Quiz</string>
+    <string name="watch_ads">Watch Ads</string>
+    <string name="qureka_lite">Qureka Lite</string>
+    <string name="watch_video">Watch Video</string>
+    <string name="qureka_quiz">Qureka Quiz</string>
+    <string name="play_and_win">Play And Win</string>
+    <string name="play_quiz_and_win">Play Quiz and Win</string>
+    <string name="quiz_ready">QUIZ READY</string>
+    <string name="video_ready">VIDEO READY</string>
 </resources>

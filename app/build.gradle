@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('D:\\Projects\\androidKeyStore\\upload-keystore.jks')
+            storePassword 'Rajat.RN@321'
+            keyAlias 'key0'
+            keyPassword 'Rajat.RN@321'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -11,8 +19,8 @@ android {
         applicationId "com.rajatnagpure.earnfromads"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName '2.0'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
