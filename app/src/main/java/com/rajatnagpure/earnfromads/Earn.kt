@@ -1,15 +1,14 @@
 package com.rajatnagpure.earnfromads
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
@@ -18,6 +17,10 @@ import com.unity3d.ads.IUnityAdsListener
 import com.unity3d.ads.UnityAds
 import com.unity3d.ads.UnityAds.FinishState
 import com.unity3d.ads.UnityAds.UnityAdsError
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.*
 
 
 class Earn : AppCompatActivity() {
@@ -27,6 +30,7 @@ class Earn : AppCompatActivity() {
     private val testMode = false
     private val surfacingId = "Rewarded_Android"
     private var watchUnityAd: Button? = null
+    private var playQurekaQuiz: Button? = null
     private var playQuerkaLiteQuiz: Button? = null
     private var amountText: TextView? = null
     private var videoLoading: TextView? = null
@@ -57,6 +61,7 @@ class Earn : AppCompatActivity() {
 
         amountText = findViewById<TextView>(R.id.text_amount)
         watchUnityAd = findViewById<Button>(R.id.button_watch_unity_ad)
+        playQuerkaLiteQuiz = findViewById(R.id.button_play_querka_quiz)
         playQuerkaLiteQuiz = findViewById<Button>(R.id.button_play_querka_quiz)
 
 
@@ -72,6 +77,19 @@ class Earn : AppCompatActivity() {
 
         watchUnityAd?.setOnClickListener{
             displayRewardedAd()
+        }
+
+        playQuerkaLiteQuiz?.setOnClickListener{ view ->
+            Toast.makeText(this, "Playing Quiz", Toast.LENGTH_LONG).show()
+//            val inflater =
+//                view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//            val popupView: View = inflater.inflate(R.layout.taking_details_popup_window, null)
+//
+//            val width = LinearLayout.LayoutParams.WRAP_CONTENT
+//            val height = LinearLayout.LayoutParams.WRAP_CONTENT
+//            val focusable = true
+//            val popupWindow = PopupWindow(popupView, width, height, focusable)
+//            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
         }
 
         val notLoading = findViewById<CardView>(R.id.not_loading)
