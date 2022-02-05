@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rajatnagpure.earnfromads">
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name="com.rajatnagpure.earnfromads.App"
         android:allowBackup="true"
@@ -10,7 +13,8 @@
         android:roundIcon="@mipmap/earn_rupees_logo_circle"
         android:supportsRtl="true"
         android:theme="@style/Theme.EarnFromAds">
-        <activity android:name="com.rajatnagpure.earnfromads.NotLoading"></activity>
+
+        <activity android:name="com.rajatnagpure.earnfromads.NotLoading"/>
         <activity android:name="com.rajatnagpure.earnfromads.GooglePlay" />
         <activity android:name="com.rajatnagpure.earnfromads.Earn" />
         <activity android:name="com.rajatnagpure.earnfromads.MainActivity">

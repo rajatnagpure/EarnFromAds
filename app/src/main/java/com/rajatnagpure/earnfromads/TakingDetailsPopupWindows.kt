@@ -1,4 +1,8 @@
 package com.rajatnagpure.earnfromads
+
+import android.R.attr
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.os.Build
 import android.text.TextUtils
@@ -10,8 +14,25 @@ import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import android.view.MotionEvent
-import android.view.View.OnTouchListener
+import android.net.ConnectivityManager
+import android.content.DialogInterface
+import android.os.AsyncTask
+import java.net.HttpURLConnection
+import java.net.URL
+import android.app.Dialog
+import android.R.attr.action
+
+import android.R.attr.password
+
+import android.R.attr.name
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
+
+import java.util.ArrayList
+import javax.net.ssl.HttpsURLConnection
+
 
 class TakingDetailsPopupWindows {
     private var closeButton: ImageButton? = null
@@ -27,8 +48,8 @@ class TakingDetailsPopupWindows {
     private var phoneTextInputEditText: TextInputEditText? = null
     private var emailTextInputLayout: TextInputLayout? = null
     private var emailTextInputEditText: TextInputEditText? = null
-    private var addressTextInputLayout: TextInputLayout? = null
-    private var addressTextInputEditText: TextInputEditText? = null
+    private var countryTextInputLayout: TextInputLayout? = null
+    private var countryTextInputEditText: AutoCompleteTextView? = null
     private var submitButton: Button? = null
 
     private var redeemed = false
@@ -60,22 +81,34 @@ class TakingDetailsPopupWindows {
         ageTextInputLayout = popupView.findViewById(R.id.age_text_input)
         phoneTextInputLayout = popupView.findViewById(R.id.phone_text_input)
         emailTextInputLayout = popupView.findViewById(R.id.email_text_input)
-        addressTextInputLayout = popupView.findViewById(R.id.address_text_input)
+        countryTextInputLayout = popupView.findViewById(R.id.country_text_input)
         nameTextInputEditText = popupView.findViewById(R.id.name_edit_text)
         ageTextInputEditText = popupView.findViewById(R.id.age_edit_text)
         phoneTextInputEditText = popupView.findViewById(R.id.phone_edit_text)
         emailTextInputEditText = popupView.findViewById(R.id.email_edit_text)
-        addressTextInputEditText = popupView.findViewById(R.id.address_edit_text)
+        countryTextInputEditText = popupView.findViewById(R.id.country_edit_text)
         submitButton = popupView.findViewById(R.id.submit_button)
+
+        val adapter = ArrayAdapter(view.context,android.R.layout.simple_list_item_1,CountryDetails.countryWithCode)
+        countryTextInputEditText?.setAdapter(adapter)
+        countryTextInputEditText?.threshold = 1
 
         submitButton?.setOnClickListener{
             if(!redeemed){
-                if(validateName() && validateAge() && validatePhone() && validateEmail() && validateAddress()){
-                    redeemed = !redeemed
-                    submitButton?.text = "Close"
-                    titleText?.text = "REDEEMED!"
-                    detailsFieldsListLinearLayout?.visibility = LinearLayout.GONE
-                    congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+                if(validateName() && validateAge() && validatePhone() && validateEmail() && validateCountry()){
+                    if(!isNetworkAvailable(view.context)){
+                        val alertDialog = AlertDialog.Builder(view.context).create()
+                        alertDialog.setTitle("")
+                        alertDialog.setMessage("Please Check Internet Connection")
+                        alertDialog.setButton("Ok",
+                            DialogInterface.OnClickListener { dialog, which ->
+                                //dismiss the dialog
+                                alertDialog.dismiss()
+                            })
+                        alertDialog.show()
+                    }else{
+                        sendDataToCloud(view.context)
+                    }
                 }
             }else{
                 popupWindow.dismiss()
@@ -83,7 +116,15 @@ class TakingDetailsPopupWindows {
         }
     }
 
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!
+            .isConnected
+    }
+
     private fun validateEmail(): Boolean {
+        phoneTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(emailTextInputEditText?.text)) {
             if(!Patterns.EMAIL_ADDRESS.matcher(emailTextInputEditText?.text.toString()).matches()){
                 emailTextInputLayout?.isErrorEnabled = true
@@ -98,6 +139,7 @@ class TakingDetailsPopupWindows {
     }
 
     private fun validatePhone(): Boolean {
+        ageTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(phoneTextInputEditText?.text)) {
             if(!Patterns.PHONE.matcher(phoneTextInputEditText?.text.toString()).matches()){
                 phoneTextInputLayout?.isErrorEnabled = true
@@ -126,17 +168,19 @@ class TakingDetailsPopupWindows {
             }
         }
         nameTextInputLayout?.isErrorEnabled = true
-        nameTextInputLayout?.error = "Name is Must"
+        nameTextInputLayout?.error = "First & Last Name are Must"
         return false
     }
 
     private fun validateAge(): Boolean {
+        nameTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(ageTextInputEditText?.text)) {
-            if((ageTextInputEditText?.text.toString().toInt()) > 4 && (ageTextInputEditText?.text.toString().toInt()) < 80){
+            return if((ageTextInputEditText?.text.toString().toInt()) < 4 || (ageTextInputEditText?.text.toString().toInt()) > 80){
                 ageTextInputLayout?.isErrorEnabled = true
                 ageTextInputLayout?.error = "Invalid Age"
+                false
             }else{
-                return true
+                true
             }
         }
         ageTextInputLayout?.isErrorEnabled = true
@@ -144,17 +188,18 @@ class TakingDetailsPopupWindows {
         return false
     }
 
-    private fun validateAddress(): Boolean {
-        if (!TextUtils.isEmpty(addressTextInputEditText?.text)) {
-            if(addressTextInputEditText?.text.toString().length > 5){
+    private fun validateCountry(): Boolean {
+        emailTextInputLayout?.isErrorEnabled = false
+        if (!TextUtils.isEmpty(countryTextInputEditText?.text)) {
+            if(countryTextInputEditText?.text.toString().length > 5){
                 return true
             }else{
-                addressTextInputLayout?.isErrorEnabled = true
-                addressTextInputLayout?.error = "Address is Must"
+                countryTextInputLayout?.isErrorEnabled = true
+                countryTextInputLayout?.error = "country is Must"
             }
         }
-        addressTextInputLayout?.isErrorEnabled = true
-        addressTextInputLayout?.error = "Address is Must"
+        countryTextInputLayout?.isErrorEnabled = true
+        countryTextInputLayout?.error = "country is Must"
         return false
     }
 
@@ -166,5 +211,72 @@ class TakingDetailsPopupWindows {
         p.flags = p.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
         p.dimAmount = 0.3f
         wm.updateViewLayout(container, p)
+    }
+
+    private fun sendDataToCloud(context: Context){
+
+        class SendPostReqAsyncTask : AsyncTask<String, String, String>() {
+            private var loadingDialog: Dialog? = null
+            override fun onPreExecute() {
+                super.onPreExecute();
+                loadingDialog = ProgressDialog.show(context, "REDEEMING", "REDEEMING...");
+            }
+
+            override fun doInBackground(vararg urls: String?): String {
+                var urlConnection: HttpURLConnection? = null
+                val url = URL("https://script.google.com/macros/s/AKfycbxuIfG1GqZ2IYRRVrlWiMXUmG_UG7IM42DJeytiowvBCiNRtkLq32ODkQNYx2RF5CxO/exec?action=addUser")
+                val jsonObject = JSONObject()
+                jsonObject.put("name", nameTextInputEditText?.text.toString())
+                jsonObject.put("age", ageTextInputEditText?.text.toString())
+                jsonObject.put("mobile", phoneTextInputEditText?.text.toString())
+                jsonObject.put("email", emailTextInputEditText?.text.toString())
+                jsonObject.put("address", countryTextInputEditText?.text.toString())
+                val jsonObjectString = jsonObject.toString()
+
+                try {
+
+                    urlConnection = url.openConnection() as HttpURLConnection
+                    urlConnection.requestMethod = "POST"
+                    urlConnection.setRequestProperty("Content-Type", "application/json") // The format of the content we're sending to the server
+                    urlConnection.doInput = true
+                    urlConnection.doOutput = true
+
+                    val outputStreamWriter = OutputStreamWriter(urlConnection.outputStream)
+                    outputStreamWriter.write(jsonObjectString)
+                    outputStreamWriter.flush()
+
+                    val responseCode = urlConnection.responseCode
+                    if (responseCode == HttpsURLConnection.HTTP_OK) {
+                        val `in` = BufferedReader(InputStreamReader(urlConnection.inputStream))
+                        val sb = StringBuffer("")
+                        var line: String? = ""
+                        while (`in`.readLine().also { line = it } != null) {
+                            sb.append(line)
+                            break
+                        }
+                        `in`.close()
+                        return sb.toString()
+                    }
+                } catch (ex: Exception) {
+
+                } finally {
+                    urlConnection?.disconnect()
+                }
+
+                return " "
+            }
+
+            override fun onPostExecute(result: String?) {
+                loadingDialog?.dismiss()
+                redeemed = !redeemed
+                submitButton?.text = "Close"
+                titleText?.text = "REDEEMED!"
+                detailsFieldsListLinearLayout?.visibility = LinearLayout.GONE
+                congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+            }
+        }
+
+        val sendPostReqAsyncTask = SendPostReqAsyncTask()
+        sendPostReqAsyncTask.execute()
     }
 }

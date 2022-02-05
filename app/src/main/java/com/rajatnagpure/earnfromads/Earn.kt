@@ -80,16 +80,7 @@ class Earn : AppCompatActivity() {
         }
 
         playQuerkaLiteQuiz?.setOnClickListener{ view ->
-            Toast.makeText(this, "Playing Quiz", Toast.LENGTH_LONG).show()
-//            val inflater =
-//                view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//            val popupView: View = inflater.inflate(R.layout.taking_details_popup_window, null)
-//
-//            val width = LinearLayout.LayoutParams.WRAP_CONTENT
-//            val height = LinearLayout.LayoutParams.WRAP_CONTENT
-//            val focusable = true
-//            val popupWindow = PopupWindow(popupView, width, height, focusable)
-//            popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+            Toast.makeText(this, "Coming Soon...", Toast.LENGTH_LONG).show()
         }
 
         val notLoading = findViewById<CardView>(R.id.not_loading)
