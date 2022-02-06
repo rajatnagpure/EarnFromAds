@@ -34,18 +34,18 @@ class GooglePlay : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
             val myEdit = sharedPreferences.edit()
             var amount = sharedPreferences.getFloat("amount",0.0f)
-//            if(amount>values[position]){
-//                //TODO get redeem code of value[position]
-//                //TODO if successful less money from account
+            if(amount>values[position]){
+                //TODO get redeem code of value[position]
+                //TODO if successful less money from account
 
                 val takingDetailsPopupWindows = TakingDetailsPopupWindows()
                 takingDetailsPopupWindows.showPopupWindow(view)
-//                amount -= values[position]
-//                myEdit.putFloat("amount",amount)
-//                myEdit.apply()
-//            }else{
-//                Toast.makeText(this, "Insufficient Amount!!", Toast.LENGTH_SHORT).show()
-//            }
+                amount -= values[position]
+                myEdit.putFloat("amount",amount)
+                myEdit.apply()
+            }else{
+                Toast.makeText(this, "Insufficient Amount!!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
