@@ -32,17 +32,13 @@ class GooglePlay : AppCompatActivity() {
 
         listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
-            val myEdit = sharedPreferences.edit()
-            var amount = sharedPreferences.getFloat("amount",0.0f)
+            val amount = sharedPreferences.getFloat("amount",0.0f)
             if(amount>values[position]){
                 //TODO get redeem code of value[position]
                 //TODO if successful less money from account
 
                 val takingDetailsPopupWindows = TakingDetailsPopupWindows()
-                takingDetailsPopupWindows.showPopupWindow(view)
-                amount -= values[position]
-                myEdit.putFloat("amount",amount)
-                myEdit.apply()
+                takingDetailsPopupWindows.showPopupWindow(view, values[position].toFloat())
             }else{
                 Toast.makeText(this, "Insufficient Amount!!", Toast.LENGTH_SHORT).show()
             }

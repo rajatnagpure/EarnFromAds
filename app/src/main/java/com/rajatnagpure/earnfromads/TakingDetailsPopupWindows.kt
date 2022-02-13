@@ -25,10 +25,12 @@ import android.R.attr.action
 import android.R.attr.password
 
 import android.R.attr.name
+import android.content.Context.MODE_PRIVATE
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
+import java.time.temporal.TemporalAmount
 
 import java.util.ArrayList
 import javax.net.ssl.HttpsURLConnection
@@ -54,7 +56,7 @@ class TakingDetailsPopupWindows {
 
     private var redeemed = false
 
-    fun showPopupWindow(view: View) {
+    fun showPopupWindow(view: View, amountToBeDebited: Float) {
         val inflater =
             view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val popupView: View = inflater.inflate(R.layout.taking_details_popup_window, null)
@@ -111,6 +113,12 @@ class TakingDetailsPopupWindows {
                     }
                 }
             }else{
+                val sharedPreferences = view.context.getSharedPreferences("MySharedPref", MODE_PRIVATE)
+                val myEdit = sharedPreferences.edit()
+                var amount = sharedPreferences.getFloat("amount",0.0f)
+                amount -= amountToBeDebited
+                myEdit.putFloat("amount",amount)
+                myEdit.apply()
                 popupWindow.dismiss()
             }
         }

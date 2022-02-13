@@ -35,12 +35,28 @@ class MainActivity : AppCompatActivity() {
             startActivity(googlePlayIntent)
         }
 
+        val bankTransfer = findViewById<LinearLayout>(R.id.bank_transfer)
+        bankTransfer.setOnClickListener{
+            Toast.makeText(this,
+                resources.getString(R.string.coming_soon),
+                Toast.LENGTH_SHORT)
+                .show()
+        }
+
+        val paypal = findViewById<LinearLayout>(R.id.paypal)
+        paypal.setOnClickListener{
+            Toast.makeText(this,
+                resources.getString(R.string.coming_soon),
+                Toast.LENGTH_SHORT)
+                .show()
+        }
+
         val paytm = findViewById<LinearLayout>(R.id.paytm)
         paytm.setOnClickListener{
             Toast.makeText(this,
                 resources.getString(R.string.coming_soon),
                 Toast.LENGTH_SHORT)
-                .show();
+                .show()
         }
     }
 

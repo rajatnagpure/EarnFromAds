@@ -237,6 +237,112 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:id="@+id/bank_transfer"
+                        android:padding="@dimen/spacing_medium">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:contentDescription="@string/google_play_logo"
+                            android:src="@mipmap/ic_bank_transfer" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_small"
+                                android:text="Real Money"
+                                android:textColor="@color/grey_600"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:fontFamily="sans-serif-medium" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:text="Transfer To Bank Account"
+                                android:textColor="@color/grey_600"
+                                android:textSize="12sp"
+                                app:fontFamily="sans-serif-medium" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/spacing_middle" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/paypal"
+                        android:padding="@dimen/spacing_medium">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:contentDescription="@string/google_play_logo"
+                            android:src="@mipmap/ic_paypal" />
+
+                        <View
+                            android:layout_width="@dimen/spacing_large"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_middle"
+                                android:layout_marginBottom="@dimen/spacing_small"
+                                android:text="Paypal Money"
+                                android:textColor="@color/grey_600"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:fontFamily="sans-serif-medium" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_small"
+                                android:layout_marginBottom="@dimen/spacing_medium"
+                                android:text="Transfer To Paypal"
+                                android:textColor="@color/grey_600"
+                                android:textSize="12sp"
+                                app:fontFamily="sans-serif-medium" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/spacing_middle" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:id="@+id/paytm"
                         android:padding="@dimen/spacing_medium">
 
