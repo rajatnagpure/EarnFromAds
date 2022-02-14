@@ -146,16 +146,16 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
     private fun validatePhone(): Boolean {
         ageTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(phoneTextInputEditText?.text)) {
-            if(!Patterns.PHONE.matcher(phoneTextInputEditText?.text.toString()).matches()){
+            return if(!phoneTextInputEditText?.text.toString().matches("""[1-9]*""".toRegex())){
                 phoneTextInputLayout?.isErrorEnabled = true
                 phoneTextInputLayout?.error = "Invalid Phone No."
-                if(phoneTextInputEditText?.text.toString().length < 10){
-                    phoneTextInputLayout?.isErrorEnabled = true
-                    phoneTextInputLayout?.error = "At Least 10 Digits Needed"
-                    return false
-                }
+                false
+            }else if(phoneTextInputEditText?.text.toString().length < 10){
+                phoneTextInputLayout?.isErrorEnabled = true
+                phoneTextInputLayout?.error = "At Least 10 Digits"
+                false
             }else{
-                return true
+                true
             }
         }
         phoneTextInputLayout?.isErrorEnabled = true
@@ -229,13 +229,13 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
 
             override fun doInBackground(vararg urls: String?): String {
                 var urlConnection: HttpURLConnection? = null
-                val url = URL("https://script.google.com/macros/s/AKfycbxuIfG1GqZ2IYRRVrlWiMXUmG_UG7IM42DJeytiowvBCiNRtkLq32ODkQNYx2RF5CxO/exec?action=addUser")
+                val url = URL("https://script.google.com/macros/s/AKfycbwcZo1U3LeKkOduDDnvNXgwgOYs6Cf3UA1t6WjKgpnIlMHqQ6VyNfA98pNt0irIKDpMKg/exec?action=addGoogleRedeemCodeData")
                 val jsonObject = JSONObject()
                 jsonObject.put("name", nameTextInputEditText?.text.toString())
                 jsonObject.put("age", ageTextInputEditText?.text.toString())
                 jsonObject.put("mobile", phoneTextInputEditText?.text.toString())
                 jsonObject.put("email", emailTextInputEditText?.text.toString())
-                jsonObject.put("address", countryTextInputEditText?.text.toString())
+                jsonObject.put("countryOrAddress", countryTextInputEditText?.text.toString())
                 val jsonObjectString = jsonObject.toString()
 
                 try {
