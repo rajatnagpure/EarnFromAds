@@ -1,11 +1,15 @@
-package com.rajatnagpure.earnfromads
+package com.rajatnagpure.earnfromads.banktransfer
 
-import android.R.attr
 import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.net.ConnectivityManager
+import android.os.AsyncTask
 import android.os.Build
 import android.text.TextUtils
+import android.text.method.LinkMovementMethod
 import android.util.Patterns
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -14,32 +18,27 @@ import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import android.net.ConnectivityManager
-import android.content.DialogInterface
-import android.os.AsyncTask
-import java.net.HttpURLConnection
-import java.net.URL
-import android.app.Dialog
-import android.R.attr.action
-
-import android.R.attr.password
-
-import android.R.attr.name
-import android.content.Context.MODE_PRIVATE
+import com.rajatnagpure.earnfromads.R
+import com.rajatnagpure.earnfromads.StaticData
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
-import java.time.temporal.TemporalAmount
-
-import java.util.ArrayList
+import java.net.HttpURLConnection
+import java.net.URL
 import javax.net.ssl.HttpsURLConnection
+import android.text.Html
 
 
-class TakingDetailsPopupWindows {
+
+
+class BankTransferDetailsPopupWindowsForm  {
     private var closeButton: ImageButton? = null
     private var congratulationsTextLinearLayout: LinearLayout? = null
-    private var detailsFieldsListLinearLayout: LinearLayout? = null
+    private var personalDetailsListLinearLayout: LinearLayout? = null
+    private var paymentDetailsLinearLayout: LinearLayout? = null
+    private var detailsFieldsListLinearLayoutGroup: LinearLayout? = null
+    private var privacyPolicyAndTermsAndConditionsLinearLayout: LinearLayout? = null
 
     private var titleText: TextView? = null
     private var nameTextInputLayout: TextInputLayout? = null
@@ -52,6 +51,8 @@ class TakingDetailsPopupWindows {
     private var emailTextInputEditText: TextInputEditText? = null
     private var countryTextInputLayout: TextInputLayout? = null
     private var countryTextInputEditText: AutoCompleteTextView? = null
+
+    private var privacyPolicyAndTermsAndConditionsTextView: TextView? = null
     private var submitButton: Button? = null
 
     private var redeemed = false
@@ -59,7 +60,7 @@ class TakingDetailsPopupWindows {
     fun showPopupWindow(view: View, amountToBeDebited: Float) {
         val inflater =
             view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val popupView: View = inflater.inflate(R.layout.taking_details_popup_window, null)
+        val popupView: View = inflater.inflate(R.layout.bank_transfer_details_popup_window_form, null)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupView.elevation = 4F
         }
@@ -75,10 +76,11 @@ class TakingDetailsPopupWindows {
         }
 
         congratulationsTextLinearLayout = popupView.findViewById(R.id.congratulations_text_linear_layout)
-        detailsFieldsListLinearLayout = popupView.findViewById(R.id.details_fields_list_linear_layout)
+        detailsFieldsListLinearLayoutGroup = popupView.findViewById(R.id.details_fields_list_linear_layout_group)
         congratulationsTextLinearLayout?.visibility = LinearLayout.GONE
 
         titleText = popupView.findViewById(R.id.title_text)
+
         nameTextInputLayout = popupView.findViewById(R.id.name_text_input)
         ageTextInputLayout = popupView.findViewById(R.id.age_text_input)
         phoneTextInputLayout = popupView.findViewById(R.id.phone_text_input)
@@ -89,12 +91,20 @@ class TakingDetailsPopupWindows {
         phoneTextInputEditText = popupView.findViewById(R.id.phone_edit_text)
         emailTextInputEditText = popupView.findViewById(R.id.email_edit_text)
         countryTextInputEditText = popupView.findViewById(R.id.country_edit_text)
+
+        privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view)
         submitButton = popupView.findViewById(R.id.submit_button)
 
-        val adapter = ArrayAdapter(view.context,android.R.layout.simple_list_item_1,CountryDetails.countryWithCode)
+        val adapter = ArrayAdapter(view.context,android.R.layout.simple_list_item_1,
+            StaticData.countryWithCode
+        )
         countryTextInputEditText?.setAdapter(adapter)
         countryTextInputEditText?.threshold = 1
 
+        privacyPolicyAndTermsAndConditionsTextView?.isClickable = true
+        privacyPolicyAndTermsAndConditionsTextView?.movementMethod = LinkMovementMethod.getInstance()
+        val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
+        privacyPolicyAndTermsAndConditionsTextView?.text = Html.fromHtml(text)
         submitButton?.setOnClickListener{
             if(!redeemed){
                 if(validateName() && validateAge() && validatePhone() && validateEmail() && validateCountry()){
@@ -113,7 +123,9 @@ class TakingDetailsPopupWindows {
                     }
                 }
             }else{
-                val sharedPreferences = view.context.getSharedPreferences("MySharedPref", MODE_PRIVATE)
+                val sharedPreferences = view.context.getSharedPreferences("MySharedPref",
+                    Context.MODE_PRIVATE
+                )
                 val myEdit = sharedPreferences.edit()
                 var amount = sharedPreferences.getFloat("amount",0.0f)
                 amount -= amountToBeDebited
@@ -279,7 +291,7 @@ class TakingDetailsPopupWindows {
                 redeemed = !redeemed
                 submitButton?.text = "Close"
                 titleText?.text = "REDEEMED!"
-                detailsFieldsListLinearLayout?.visibility = LinearLayout.GONE
+                detailsFieldsListLinearLayoutGroup?.visibility = LinearLayout.GONE
                 congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
             }
         }

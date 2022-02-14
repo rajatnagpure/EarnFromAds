@@ -1,6 +1,6 @@
 package com.rajatnagpure.earnfromads
 
-class CountryDetails {
+class StaticData {
     val countryWithCode: Array<String>
         get() = Companion.countryWithCode
 

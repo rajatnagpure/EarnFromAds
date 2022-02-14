@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import com.rajatnagpure.earnfromads.banktransfer.BankTransferList
+import com.rajatnagpure.earnfromads.earn.Earn
+import com.rajatnagpure.earnfromads.googleplay.GooglePlayRedeemList
 
 class MainActivity : AppCompatActivity() {
     var amount = 0.0f
@@ -31,16 +34,14 @@ class MainActivity : AppCompatActivity() {
 
         val googlePlay = findViewById<LinearLayout>(R.id.google_play)
         googlePlay.setOnClickListener{
-            val googlePlayIntent = Intent(this, GooglePlay::class.java)
+            val googlePlayIntent = Intent(this, GooglePlayRedeemList::class.java)
             startActivity(googlePlayIntent)
         }
 
         val bankTransfer = findViewById<LinearLayout>(R.id.bank_transfer)
         bankTransfer.setOnClickListener{
-            Toast.makeText(this,
-                resources.getString(R.string.coming_soon),
-                Toast.LENGTH_SHORT)
-                .show()
+            val bankTransferIntent = Intent(this, BankTransferList::class.java)
+            startActivity(bankTransferIntent)
         }
 
         val paypal = findViewById<LinearLayout>(R.id.paypal)

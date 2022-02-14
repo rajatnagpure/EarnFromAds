@@ -4,20 +4,23 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:name="com.rajatnagpure.earnfromads.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/earn_rupees_logo_square"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/earn_rupees_logo_circle"
         android:supportsRtl="true"
         android:theme="@style/Theme.EarnFromAds">
-
-        <activity android:name="com.rajatnagpure.earnfromads.NotLoading"/>
-        <activity android:name="com.rajatnagpure.earnfromads.GooglePlay" />
-        <activity android:name="com.rajatnagpure.earnfromads.Earn" />
-        <activity android:name="com.rajatnagpure.earnfromads.MainActivity">
+        <activity
+            android:name=".banktransfer.BankTransferList"
+            android:exported="false" />
+        <activity android:name=".earn.NotLoading" />
+        <activity android:name=".googleplay.GooglePlayRedeemList" />
+        <activity android:name=".earn.Earn" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

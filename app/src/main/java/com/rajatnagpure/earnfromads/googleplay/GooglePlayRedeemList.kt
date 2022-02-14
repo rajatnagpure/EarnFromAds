@@ -1,4 +1,4 @@
-package com.rajatnagpure.earnfromads
+package com.rajatnagpure.earnfromads.googleplay
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -6,12 +6,13 @@ import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.rajatnagpure.earnfromads.R
 
 
-class GooglePlay : AppCompatActivity() {
+class GooglePlayRedeemList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_google_play)
+        setContentView(R.layout.activity_google_play_redeem_list)
         val toolbar = findViewById<Toolbar>(R.id.my_toolbar)
         val toolbarTitle = findViewById<TextView>(R.id.toolbar_title)
         setSupportActionBar(toolbar)
@@ -26,7 +27,7 @@ class GooglePlay : AppCompatActivity() {
         for (element in values) {
             list.add("Rs. $element")
         }
-        val adapter = GooglePlayListAdapter(this, list)
+        val adapter = GooglePlayReDeemListAdapter(this, list)
         listView.adapter = adapter
 
 
@@ -37,7 +38,7 @@ class GooglePlay : AppCompatActivity() {
                 //TODO get redeem code of value[position]
                 //TODO if successful less money from account
 
-                val takingDetailsPopupWindows = TakingDetailsPopupWindows()
+                val takingDetailsPopupWindows = GooglePlayRedeemDetailsPopupWindowsForm()
                 takingDetailsPopupWindows.showPopupWindow(view, values[position].toFloat())
             }else{
                 Toast.makeText(this, "Insufficient Amount!!", Toast.LENGTH_SHORT).show()

@@ -1,9 +1,7 @@
-package com.rajatnagpure.earnfromads
+package com.rajatnagpure.earnfromads.earn
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -17,10 +15,8 @@ import com.unity3d.ads.IUnityAdsListener
 import com.unity3d.ads.UnityAds
 import com.unity3d.ads.UnityAds.FinishState
 import com.unity3d.ads.UnityAds.UnityAdsError
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
+import com.rajatnagpure.earnfromads.R
 
 
 class Earn : AppCompatActivity() {
@@ -47,8 +43,8 @@ class Earn : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbarTitle.text =resources.getString(R.string.earn);
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         videoLoading = findViewById<TextView>(R.id.video_ready)
         anim = AlphaAnimation(0.0f, 1.0f)

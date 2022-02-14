@@ -8,6 +8,7 @@
     <string name="redeem">REDEEM</string>
     <string name="redeem_code">Redeem Code</string>
     <string name="google_play_recharge">Google Play Recharge</string>
+    <string name="bank_transfer">Bank Transfer</string>
     <string name="google_play_logo">Google Play Logo</string>
     <string name="paytm_cash">Paytm Cash</string>
     <string name="transfer_to_paytm">Transfer To Paytm</string>
