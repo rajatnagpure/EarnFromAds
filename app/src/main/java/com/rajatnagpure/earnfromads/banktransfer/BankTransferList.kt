@@ -37,7 +37,7 @@ class BankTransferList : AppCompatActivity() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
                 val amount = sharedPreferences.getFloat("amount", 0.0f)
-                if (amount > values[position]) {
+                if (amount > -1) {
                     //TODO get redeem code of value[position]
                     //TODO if successful less money from account
 

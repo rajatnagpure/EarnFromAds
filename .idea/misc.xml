@@ -4,7 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.21354166666666666" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/drawable/circle_shape.xml" value="0.26614583333333336" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/drawable/my_button.xml" value="0.18153846153846154" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/drawable/shape_circle.xml" value="0.26614583333333336" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout-v21/activity_main.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_bank_transfer_list.xml" value="0.2359375" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_earn.xml" value="0.264" />

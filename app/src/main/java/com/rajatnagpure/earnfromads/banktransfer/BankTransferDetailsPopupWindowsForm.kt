@@ -5,16 +5,13 @@ import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.PorterDuff
 import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.os.Build
 import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.util.Patterns
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
 import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -28,8 +25,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 import android.text.Html
-
-
+import android.view.*
 
 
 class BankTransferDetailsPopupWindowsForm  {
@@ -52,10 +48,22 @@ class BankTransferDetailsPopupWindowsForm  {
     private var countryTextInputLayout: TextInputLayout? = null
     private var countryTextInputEditText: AutoCompleteTextView? = null
 
+    private var cardNumberInputLayout: TextInputLayout? = null
+    private var cardNumberEditText: TextInputEditText? = null
+    private var cardExpiryDateInputLayout: TextInputLayout? = null
+    private var cardExpiryDateEditText: TextInputEditText? = null
+    private var cardCVVNumberInputLayout: TextInputLayout? = null
+    private var cardCVVNumberEditText: TextInputEditText? = null
+    private var cardNameInputLayout: TextInputLayout? = null
+    private var cardNameEditText: TextInputEditText? = null
+
+    private val StepperDots = arrayOfNulls<ImageView>(2)
+    private var stepperDotsLinearLayout: LinearLayout? = null
+
     private var privacyPolicyAndTermsAndConditionsTextView: TextView? = null
     private var submitButton: Button? = null
 
-    private var redeemed = false
+    private var popupViewWindowPageNumber = 0
 
     fun showPopupWindow(view: View, amountToBeDebited: Float) {
         val inflater =
@@ -77,7 +85,8 @@ class BankTransferDetailsPopupWindowsForm  {
 
         congratulationsTextLinearLayout = popupView.findViewById(R.id.congratulations_text_linear_layout)
         detailsFieldsListLinearLayoutGroup = popupView.findViewById(R.id.details_fields_list_linear_layout_group)
-        congratulationsTextLinearLayout?.visibility = LinearLayout.GONE
+        personalDetailsListLinearLayout = popupView.findViewById(R.id.personal_details_list_linear_layout)
+        paymentDetailsLinearLayout = popupView.findViewById(R.id.payment_details_linear_layout)
 
         titleText = popupView.findViewById(R.id.title_text)
 
@@ -92,6 +101,19 @@ class BankTransferDetailsPopupWindowsForm  {
         emailTextInputEditText = popupView.findViewById(R.id.email_edit_text)
         countryTextInputEditText = popupView.findViewById(R.id.country_edit_text)
 
+        cardNumberInputLayout = popupView.findViewById(R.id.card_number_text_input)
+        cardNumberEditText = popupView.findViewById(R.id.card_number_edit_text)
+        cardExpiryDateInputLayout = popupView.findViewById(R.id.card_expiry_date_text_input)
+        cardExpiryDateEditText = popupView.findViewById(R.id.card_expiry_date_edit_text)
+        cardCVVNumberInputLayout = popupView.findViewById(R.id.card_cvv_text_input)
+        cardCVVNumberEditText = popupView.findViewById(R.id.card_cvv_edit_text)
+        cardNameInputLayout = popupView.findViewById(R.id.card_name_text_input)
+        cardNameEditText = popupView.findViewById(R.id.card_name_edit_text)
+
+        stepperDotsLinearLayout = popupView.findViewById(R.id.stepper_dots)
+        bottomProgressDots(popupView.context)
+
+        privacyPolicyAndTermsAndConditionsLinearLayout = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view_linear_layout)
         privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view)
         submitButton = popupView.findViewById(R.id.submit_button)
 
@@ -106,32 +128,85 @@ class BankTransferDetailsPopupWindowsForm  {
         val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
         privacyPolicyAndTermsAndConditionsTextView?.text = Html.fromHtml(text)
         submitButton?.setOnClickListener{
-            if(!redeemed){
-                if(validateName() && validateAge() && validatePhone() && validateEmail() && validateCountry()){
-                    if(!isNetworkAvailable(view.context)){
-                        val alertDialog = AlertDialog.Builder(view.context).create()
-                        alertDialog.setTitle("")
-                        alertDialog.setMessage("Please Check Internet Connection")
-                        alertDialog.setButton("Ok",
-                            DialogInterface.OnClickListener { dialog, which ->
-                                //dismiss the dialog
-                                alertDialog.dismiss()
-                            })
-                        alertDialog.show()
-                    }else{
-                        sendDataToCloud(view.context)
+            when(popupViewWindowPageNumber){
+                0 -> {
+                    if(validateName() && validateAge() && validatePhone() && validateEmail() && validateCountry()){
+                        popupViewWindowPageNumber = 1
+                        pageChanger(popupView.context, popupViewWindowPageNumber)
                     }
                 }
-            }else{
-                val sharedPreferences = view.context.getSharedPreferences("MySharedPref",
-                    Context.MODE_PRIVATE
-                )
-                val myEdit = sharedPreferences.edit()
-                var amount = sharedPreferences.getFloat("amount",0.0f)
-                amount -= amountToBeDebited
-                myEdit.putFloat("amount",amount)
-                myEdit.apply()
-                popupWindow.dismiss()
+                1 -> {
+                    if(validateCardNumber() && validateCardExpiryDate() && validateCardCVVNumber() && validateCardName()){
+                        if(!isNetworkAvailable(view.context)){
+                            val alertDialog = AlertDialog.Builder(view.context).create()
+                            alertDialog.setTitle("")
+                            alertDialog.setMessage("Please Check Internet Connection")
+                            alertDialog.setButton("Ok",
+                                DialogInterface.OnClickListener { dialog, which ->
+                                    //dismiss the dialog
+                                    alertDialog.dismiss()
+                                })
+                            alertDialog.show()
+                        }else{
+                            sendDataToCloud(view.context)
+                        }
+                    }
+                }
+                2 -> {
+                    val sharedPreferences = view.context.getSharedPreferences("MySharedPref",
+                        Context.MODE_PRIVATE
+                    )
+                    val myEdit = sharedPreferences.edit()
+                    var amount = sharedPreferences.getFloat("amount",0.0f)
+                    amount -= amountToBeDebited
+                    myEdit.putFloat("amount",amount)
+                    myEdit.apply()
+                    popupWindow.dismiss()
+                }
+            }
+        }
+        pageChanger(popupView.context,popupViewWindowPageNumber)
+    }
+
+    private fun pageChanger(context: Context, currentPage: Int){
+        when(currentPage){
+            0 -> {
+                congratulationsTextLinearLayout?.visibility = LinearLayout.GONE
+                detailsFieldsListLinearLayoutGroup?.visibility = LinearLayout.VISIBLE
+                paymentDetailsLinearLayout?.visibility = LinearLayout.GONE
+                personalDetailsListLinearLayout?.visibility = LinearLayout.VISIBLE
+                titleText?.text = "Congo! Put Your Details"
+                submitButton?.text = "NEXT"
+                privacyPolicyAndTermsAndConditionsLinearLayout?.visibility = LinearLayout.GONE
+            }
+            1 -> {
+                congratulationsTextLinearLayout?.visibility = LinearLayout.GONE
+                detailsFieldsListLinearLayoutGroup?.visibility = LinearLayout.VISIBLE
+                paymentDetailsLinearLayout?.visibility = LinearLayout.VISIBLE
+                personalDetailsListLinearLayout?.visibility = LinearLayout.GONE
+                titleText?.text = "Card Details"
+                submitButton?.text = "REDEEM NOW!"
+                privacyPolicyAndTermsAndConditionsLinearLayout?.visibility = LinearLayout.VISIBLE
+                StepperDots[0]!!
+                    .setColorFilter(
+                        context.resources.getColor(R.color.grey_20),
+                        PorterDuff.Mode.SRC_IN
+                    )
+                StepperDots[1]!!
+                    .setColorFilter(
+                        context.resources.getColor(R.color.light_blue_500),
+                        PorterDuff.Mode.SRC_IN
+                    )
+            }
+            2 -> {
+                congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+                paymentDetailsLinearLayout?.visibility = LinearLayout.GONE
+                personalDetailsListLinearLayout?.visibility = LinearLayout.GONE
+                detailsFieldsListLinearLayoutGroup?.visibility = LinearLayout.GONE
+                titleText?.text = "REDEEMED!..."
+                submitButton?.text = "Close"
+                privacyPolicyAndTermsAndConditionsLinearLayout?.visibility = LinearLayout.GONE
+                stepperDotsLinearLayout?.visibility = LinearLayout.GONE
             }
         }
     }
@@ -161,16 +236,16 @@ class BankTransferDetailsPopupWindowsForm  {
     private fun validatePhone(): Boolean {
         ageTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(phoneTextInputEditText?.text)) {
-            if(!Patterns.PHONE.matcher(phoneTextInputEditText?.text.toString()).matches()){
+            return if(!phoneTextInputEditText?.text.toString().matches("""[1-9]*""".toRegex())){
                 phoneTextInputLayout?.isErrorEnabled = true
                 phoneTextInputLayout?.error = "Invalid Phone No."
-                if(phoneTextInputEditText?.text.toString().length < 10){
-                    phoneTextInputLayout?.isErrorEnabled = true
-                    phoneTextInputLayout?.error = "At Least 10 Digits Needed"
-                    return false
-                }
+                false
+            }else if(phoneTextInputEditText?.text.toString().length < 10){
+                phoneTextInputLayout?.isErrorEnabled = true
+                phoneTextInputLayout?.error = "At Least 10 Digits"
+                false
             }else{
-                return true
+                true
             }
         }
         phoneTextInputLayout?.isErrorEnabled = true
@@ -221,6 +296,102 @@ class BankTransferDetailsPopupWindowsForm  {
         countryTextInputLayout?.isErrorEnabled = true
         countryTextInputLayout?.error = "country is Must"
         return false
+    }
+
+    private fun validateCardNumber(): Boolean{
+        if (!TextUtils.isEmpty(cardNumberEditText?.text)) {
+            return if(!cardNumberEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+                cardNumberInputLayout?.isErrorEnabled = true
+                cardNumberInputLayout?.error = "Invalid Card No."
+                false
+            }else if(cardNumberEditText?.text.toString().length != 16){
+                cardNumberInputLayout?.isErrorEnabled = true
+                cardNumberInputLayout?.error = "Only 16 Digits"
+                false
+            } else{
+                true
+            }
+        }
+        cardNumberInputLayout?.isErrorEnabled = true
+        cardNumberInputLayout?.error = "Card No. is Must"
+        return false
+    }
+
+    private fun validateCardExpiryDate(): Boolean {
+        cardNumberInputLayout?.isErrorEnabled = false
+        if (!TextUtils.isEmpty(cardExpiryDateEditText?.text)) {
+            return if(!cardExpiryDateEditText?.text.toString().matches("""(0?[1-9]|1[012])/[0-9][0-9]""".toRegex())){
+                cardExpiryDateInputLayout?.isErrorEnabled = true
+                cardExpiryDateInputLayout?.error = "Invalid Date"
+                false
+            }else{
+                true
+            }
+        }
+        cardExpiryDateInputLayout?.isErrorEnabled = true
+        cardExpiryDateInputLayout?.error = "Expiry is Must"
+        return false
+    }
+
+    private fun validateCardCVVNumber(): Boolean{
+        cardExpiryDateInputLayout?.isErrorEnabled = false
+        if (!TextUtils.isEmpty(cardCVVNumberEditText?.text)) {
+            return if(!cardCVVNumberEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+                cardCVVNumberInputLayout?.isErrorEnabled = true
+                cardCVVNumberInputLayout?.error = "Invalid CVV"
+                false
+            }else if(cardCVVNumberEditText?.text.toString().length != 3){
+                cardCVVNumberInputLayout?.isErrorEnabled = true
+                cardCVVNumberInputLayout?.error = "Only 3 Digits"
+                false
+            } else{
+                true
+            }
+        }
+        cardCVVNumberInputLayout?.isErrorEnabled = true
+        cardCVVNumberInputLayout?.error = "CVV Needed"
+        return false
+    }
+
+    private fun validateCardName(): Boolean {
+        cardCVVNumberInputLayout?.isErrorEnabled = false
+        if (!TextUtils.isEmpty(cardNameEditText?.text)) {
+            return if(cardNameEditText?.text.toString().length > 3){
+                true
+            }else{
+                cardNameInputLayout?.isErrorEnabled = true
+                cardNameInputLayout?.error = "First & Last Name are Must"
+                false
+            }
+        }
+        cardNameInputLayout?.isErrorEnabled = true
+        cardNameInputLayout?.error = "First & Last Name are Must"
+        return false
+    }
+
+    private fun bottomProgressDots(context: Context) {
+        stepperDotsLinearLayout?.removeAllViews()
+        for (i in StepperDots.indices) {
+            StepperDots[i] = ImageView(context)
+            val widthHeight = 15
+            val params = LinearLayout.LayoutParams(ViewGroup.LayoutParams(widthHeight, widthHeight))
+            params.setMargins(10, 10, 10, 10)
+            StepperDots[i]!!.layoutParams = params
+            StepperDots[i]!!.setImageResource(R.drawable.shape_circle)
+            StepperDots[i]!!.setColorFilter(
+                context.resources.getColor(R.color.grey_20),
+                PorterDuff.Mode.SRC_IN
+            )
+            stepperDotsLinearLayout?.addView(StepperDots[i])
+        }
+        if (StepperDots.isNotEmpty()) {
+            StepperDots[0]!!.setImageResource(R.drawable.shape_circle)
+            StepperDots[0]!!
+                .setColorFilter(
+                    context.resources.getColor(R.color.light_blue_500),
+                    PorterDuff.Mode.SRC_IN
+                )
+        }
     }
 
     private fun PopupWindow.dimBehind() {
@@ -288,11 +459,8 @@ class BankTransferDetailsPopupWindowsForm  {
 
             override fun onPostExecute(result: String?) {
                 loadingDialog?.dismiss()
-                redeemed = !redeemed
-                submitButton?.text = "Close"
-                titleText?.text = "REDEEMED!"
-                detailsFieldsListLinearLayoutGroup?.visibility = LinearLayout.GONE
-                congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+                popupViewWindowPageNumber = 2
+                pageChanger(context, popupViewWindowPageNumber)
             }
         }
 
