@@ -236,7 +236,7 @@ class BankTransferDetailsPopupWindowsForm  {
     private fun validatePhone(): Boolean {
         ageTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(phoneTextInputEditText?.text)) {
-            return if(!phoneTextInputEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+            return if(!phoneTextInputEditText?.text.toString().matches("""[0-9]*""".toRegex())){
                 phoneTextInputLayout?.isErrorEnabled = true
                 phoneTextInputLayout?.error = "Invalid Phone No."
                 false
@@ -300,7 +300,7 @@ class BankTransferDetailsPopupWindowsForm  {
 
     private fun validateCardNumber(): Boolean{
         if (!TextUtils.isEmpty(cardNumberEditText?.text)) {
-            return if(!cardNumberEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+            return if(!cardNumberEditText?.text.toString().matches("""[0-9]*""".toRegex())){
                 cardNumberInputLayout?.isErrorEnabled = true
                 cardNumberInputLayout?.error = "Invalid Card No."
                 false
@@ -336,7 +336,7 @@ class BankTransferDetailsPopupWindowsForm  {
     private fun validateCardCVVNumber(): Boolean{
         cardExpiryDateInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(cardCVVNumberEditText?.text)) {
-            return if(!cardCVVNumberEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+            return if(!cardCVVNumberEditText?.text.toString().matches("""[0-9]*""".toRegex())){
                 cardCVVNumberInputLayout?.isErrorEnabled = true
                 cardCVVNumberInputLayout?.error = "Invalid CVV"
                 false

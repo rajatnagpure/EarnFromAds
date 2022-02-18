@@ -22,6 +22,7 @@ import android.app.Dialog
 
 import android.content.Context.MODE_PRIVATE
 import android.text.Html
+import android.text.method.LinkMovementMethod
 import com.rajatnagpure.earnfromads.shared.StaticData
 import com.rajatnagpure.earnfromads.R
 import org.json.JSONObject
@@ -93,8 +94,10 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
         countryTextInputEditText?.setAdapter(adapter)
         countryTextInputEditText?.threshold = 1
 
-        val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
         val privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById<TextView>(R.id.term_and_condition_and_privacy_policy_text_view)
+        privacyPolicyAndTermsAndConditionsTextView?.isClickable = true
+        privacyPolicyAndTermsAndConditionsTextView?.movementMethod = LinkMovementMethod.getInstance()
+        val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
         privacyPolicyAndTermsAndConditionsTextView?.text = Html.fromHtml(text)
 
         submitButton?.setOnClickListener{
@@ -151,7 +154,7 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
     private fun validatePhone(): Boolean {
         ageTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(phoneTextInputEditText?.text)) {
-            return if(!phoneTextInputEditText?.text.toString().matches("""[1-9]*""".toRegex())){
+            return if(!phoneTextInputEditText?.text.toString().matches("""[0-9]*""".toRegex())){
                 phoneTextInputLayout?.isErrorEnabled = true
                 phoneTextInputLayout?.error = "Invalid Phone No."
                 false

@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
             amount = sharedPreferences!!.getFloat("amount", 0.0f)
             val myEdit = sharedPreferences!!.edit()
-            amount += 5.0F
+            amount += 10.0F
             myEdit!!.putFloat("amount", amount)
             myEdit.apply()
             findViewById<TextView>(R.id.text_amount).text = "%.2f".format(amount)
