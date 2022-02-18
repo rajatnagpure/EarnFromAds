@@ -16,7 +16,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.rajatnagpure.earnfromads.R
@@ -28,6 +30,13 @@ import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
+import android.app.Activity
+import androidx.core.content.ContextCompat
+
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 class PaytmRedeemDetailsPopupWindowForm {
     private var closeButton: ImageButton? = null
@@ -45,6 +54,9 @@ class PaytmRedeemDetailsPopupWindowForm {
     private var emailTextInputEditText: TextInputEditText? = null
     private var countryTextInputLayout: TextInputLayout? = null
     private var countryTextInputEditText: AutoCompleteTextView? = null
+
+    private var privacyPolicyAndTermsAndConditionsTextViewLinearLayout: LinearLayout? = null
+    private var privacyPolicyAndTermsAndConditionsTextView: TextView? = null
     private var submitButton: Button? = null
 
     private var redeemed = false
@@ -90,7 +102,8 @@ class PaytmRedeemDetailsPopupWindowForm {
         countryTextInputEditText?.setAdapter(adapter)
         countryTextInputEditText?.threshold = 1
 
-        val privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById<TextView>(R.id.term_and_condition_and_privacy_policy_text_view)
+        privacyPolicyAndTermsAndConditionsTextViewLinearLayout = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view_linear_layout)
+        privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view)
         privacyPolicyAndTermsAndConditionsTextView?.isClickable = true
         privacyPolicyAndTermsAndConditionsTextView?.movementMethod = LinkMovementMethod.getInstance()
         val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
@@ -284,6 +297,9 @@ class PaytmRedeemDetailsPopupWindowForm {
                 titleText?.text = "REDEEMED!"
                 detailsFieldsListLinearLayout?.visibility = LinearLayout.GONE
                 congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+                privacyPolicyAndTermsAndConditionsTextViewLinearLayout?.visibility = LinearLayout.GONE
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm!!.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             }
         }
 

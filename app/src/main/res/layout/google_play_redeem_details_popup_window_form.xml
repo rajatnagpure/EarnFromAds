@@ -188,6 +188,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/spacing_large"/>
                     <LinearLayout
+                        android:id="@+id/term_and_condition_and_privacy_policy_text_view_linear_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">

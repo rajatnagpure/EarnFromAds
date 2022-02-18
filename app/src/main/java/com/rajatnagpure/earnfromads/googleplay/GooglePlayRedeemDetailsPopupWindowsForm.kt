@@ -23,6 +23,7 @@ import android.app.Dialog
 import android.content.Context.MODE_PRIVATE
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.view.inputmethod.InputMethodManager
 import com.rajatnagpure.earnfromads.shared.StaticData
 import com.rajatnagpure.earnfromads.R
 import org.json.JSONObject
@@ -49,6 +50,9 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
     private var emailTextInputEditText: TextInputEditText? = null
     private var countryTextInputLayout: TextInputLayout? = null
     private var countryTextInputEditText: AutoCompleteTextView? = null
+
+    private var privacyPolicyAndTermsAndConditionsTextViewLinearLayout: LinearLayout? = null
+    private var privacyPolicyAndTermsAndConditionsTextView: TextView? = null
     private var submitButton: Button? = null
 
     private var redeemed = false
@@ -94,7 +98,8 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
         countryTextInputEditText?.setAdapter(adapter)
         countryTextInputEditText?.threshold = 1
 
-        val privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById<TextView>(R.id.term_and_condition_and_privacy_policy_text_view)
+        privacyPolicyAndTermsAndConditionsTextViewLinearLayout = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view_linear_layout)
+        privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById(R.id.term_and_condition_and_privacy_policy_text_view)
         privacyPolicyAndTermsAndConditionsTextView?.isClickable = true
         privacyPolicyAndTermsAndConditionsTextView?.movementMethod = LinkMovementMethod.getInstance()
         val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
@@ -286,6 +291,9 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
                 titleText?.text = "REDEEMED!"
                 detailsFieldsListLinearLayout?.visibility = LinearLayout.GONE
                 congratulationsTextLinearLayout?.visibility = LinearLayout.VISIBLE
+                privacyPolicyAndTermsAndConditionsTextViewLinearLayout?.visibility = LinearLayout.GONE
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm!!.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             }
         }
 

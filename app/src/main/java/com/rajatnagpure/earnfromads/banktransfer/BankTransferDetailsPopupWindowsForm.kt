@@ -26,6 +26,7 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 import android.text.Html
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 
 
 class BankTransferDetailsPopupWindowsForm  {
@@ -207,6 +208,8 @@ class BankTransferDetailsPopupWindowsForm  {
                 submitButton?.text = "Close"
                 privacyPolicyAndTermsAndConditionsLinearLayout?.visibility = LinearLayout.GONE
                 stepperDotsLinearLayout?.visibility = LinearLayout.GONE
+                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm!!.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
             }
         }
     }
