@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EarnFromAds">
         <activity
+            android:name=".paytmtransfer.PaytmRedeemList"
+            android:exported="false" />
+        <activity
             android:name=".banktransfer.BankTransferList"
             android:exported="false" />
         <activity android:name=".earn.NotLoading" />

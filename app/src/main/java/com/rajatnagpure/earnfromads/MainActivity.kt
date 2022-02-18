@@ -18,6 +18,7 @@ import android.view.Window
 import android.view.WindowManager
 
 import android.widget.Button
+import com.rajatnagpure.earnfromads.paytmtransfer.PaytmRedeemList
 
 
 class MainActivity : AppCompatActivity() {
@@ -67,10 +68,8 @@ class MainActivity : AppCompatActivity() {
 
         val paytm = findViewById<LinearLayout>(R.id.paytm)
         paytm.setOnClickListener{
-            Toast.makeText(this,
-                resources.getString(R.string.coming_soon),
-                Toast.LENGTH_SHORT)
-                .show()
+            val paytmTransferIntent = Intent(this, PaytmRedeemList::class.java)
+            startActivity(paytmTransferIntent)
         }
     }
 

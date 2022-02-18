@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.rajatnagpure.earnfromads.R
 
+
 class GooglePlayReDeemListAdapter(context: Context, values: ArrayList<String>) : ArrayAdapter<String>(context, 0, values) {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var listItemView = convertView

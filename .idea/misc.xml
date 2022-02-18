@@ -12,12 +12,17 @@
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_bank_transfer_list.xml" value="0.2359375" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_earn.xml" value="0.264" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_google_play.xml" value="0.25" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_google_play_redeem_list.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_main.xml" value="0.35436893203883496" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_not_loading.xml" value="0.16822916666666668" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/activity_paytm_redeem_list.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/bank_transfer_details_popup_window_form.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/bank_transfer_list_item.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/bonus_dialogue.xml" value="0.25" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/google_play_redeem_details_popup_window_form.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/google_play_redeem_list_item.xml" value="0.25" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/paytm_redeem_details_popup_window_form.xml" value="0.25" />
+        <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/paytm_redeem_list_item.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/layout/taking_details_popup_window.xml" value="0.25" />
         <entry key="..\:/Projects/EarnFromAds/app/src/main/res/mipmap-anydpi-v26/ic_bank_transfer.xml" value="0.26614583333333336" />
       </map>

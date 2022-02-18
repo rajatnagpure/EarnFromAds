@@ -7,6 +7,7 @@ import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.rajatnagpure.earnfromads.R
+import com.rajatnagpure.earnfromads.paytmtransfer.PaytmRedeemDetailsPopupWindowForm
 
 
 class GooglePlayRedeemList : AppCompatActivity() {
@@ -34,7 +35,7 @@ class GooglePlayRedeemList : AppCompatActivity() {
         listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
             val sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE)
             val amount = sharedPreferences.getFloat("amount",0.0f)
-            if(amount>values[position]){
+            if(amount>=values[position]){
                 //TODO get redeem code of value[position]
                 //TODO if successful less money from account
 

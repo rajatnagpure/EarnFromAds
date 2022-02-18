@@ -43,4 +43,5 @@
     <string name="play_quiz_and_win">Play Quiz and Win</string>
     <string name="quiz_ready">QUIZ READY</string>
     <string name="video_ready">VIDEO READY</string>
+    <string name="transfer">TRANSFER</string>
 </resources>
