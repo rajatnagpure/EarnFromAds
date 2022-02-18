@@ -21,6 +21,7 @@ import java.net.URL
 import android.app.Dialog
 
 import android.content.Context.MODE_PRIVATE
+import android.text.Html
 import com.rajatnagpure.earnfromads.shared.StaticData
 import com.rajatnagpure.earnfromads.R
 import org.json.JSONObject
@@ -91,6 +92,10 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
         )
         countryTextInputEditText?.setAdapter(adapter)
         countryTextInputEditText?.threshold = 1
+
+        val text = "<a href='https://docs.google.com/document/d/1gVECPIIaBdZb5VdQJRSEtanF2SZVHvGiRsTTV9_VZhA/edit?usp=sharing'> Term &amp; Condition and Privacy Policy. </a>"
+        val privacyPolicyAndTermsAndConditionsTextView = popupView.findViewById<TextView>(R.id.term_and_condition_and_privacy_policy_text_view)
+        privacyPolicyAndTermsAndConditionsTextView?.text = Html.fromHtml(text)
 
         submitButton?.setOnClickListener{
             if(!redeemed){
