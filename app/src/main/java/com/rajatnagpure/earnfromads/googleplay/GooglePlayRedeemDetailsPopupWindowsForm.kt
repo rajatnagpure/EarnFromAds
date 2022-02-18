@@ -21,7 +21,7 @@ import java.net.URL
 import android.app.Dialog
 
 import android.content.Context.MODE_PRIVATE
-import com.rajatnagpure.earnfromads.StaticData
+import com.rajatnagpure.earnfromads.shared.StaticData
 import com.rajatnagpure.earnfromads.R
 import org.json.JSONObject
 import java.io.BufferedReader

@@ -16,7 +16,7 @@ import android.widget.*
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.rajatnagpure.earnfromads.R
-import com.rajatnagpure.earnfromads.StaticData
+import com.rajatnagpure.earnfromads.shared.StaticData
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader

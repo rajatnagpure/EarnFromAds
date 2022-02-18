@@ -24,7 +24,7 @@ class BankTransferList : AppCompatActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val listView = findViewById<ListView>(R.id.list_view)
-        val values = arrayOf( 98, 198, 298, 399, 500)
+        val values = arrayOf( 60, 100, 140, 220, 500)
         val list = ArrayList<String>()
         for (element in values) {
             list.add("Rs. $element")

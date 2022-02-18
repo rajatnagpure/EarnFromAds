@@ -1,4 +1,4 @@
-package com.rajatnagpure.earnfromads
+package com.rajatnagpure.earnfromads.shared
 
 class StaticData {
     val countryWithCode: Array<String>
