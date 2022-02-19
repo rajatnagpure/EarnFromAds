@@ -178,7 +178,7 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
 
     private fun validateName(): Boolean {
         if (!TextUtils.isEmpty(nameTextInputEditText?.text)) {
-            if(nameTextInputEditText?.text.toString().length > 3){
+            if(nameTextInputEditText?.text.toString().length >= 5){
                 return true
             }else{
                 nameTextInputLayout?.isErrorEnabled = true
@@ -209,7 +209,7 @@ class GooglePlayRedeemDetailsPopupWindowsForm {
     private fun validateCountry(): Boolean {
         emailTextInputLayout?.isErrorEnabled = false
         if (!TextUtils.isEmpty(countryTextInputEditText?.text)) {
-            if(countryTextInputEditText?.text.toString().length > 5){
+            if(countryTextInputEditText?.text.toString().length >= 3){
                 return true
             }else{
                 countryTextInputLayout?.isErrorEnabled = true
