@@ -36,8 +36,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 
 
-
-
 class PaytmRedeemDetailsPopupWindowForm {
     private var closeButton: ImageButton? = null
     private var congratulationsTextLinearLayout: LinearLayout? = null
