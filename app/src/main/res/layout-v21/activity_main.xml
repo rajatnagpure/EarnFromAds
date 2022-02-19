@@ -234,6 +234,13 @@
 
                         </LinearLayout>
 
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginRight="@dimen/spacing_xlarge"-->
+<!--                            android:layout_marginLeft="@dimen/spacing_xlarge"-->
+<!--                            android:background="@color/grey_10"/>-->
+
                         <View
                             android:layout_width="0dp"
                             android:layout_height="@dimen/spacing_middle" />
@@ -286,6 +293,13 @@
                             </LinearLayout>
 
                         </LinearLayout>
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="1dp"-->
+<!--                            android:layout_marginRight="@dimen/spacing_xlarge"-->
+<!--                            android:layout_marginLeft="@dimen/spacing_xlarge"-->
+<!--                            android:background="@color/grey_10"/>-->
 
                         <View
                             android:layout_width="0dp"
