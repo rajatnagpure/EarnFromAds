@@ -247,8 +247,8 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:contentDescription="@string/google_play_logo"
-                                android:src="@mipmap/ic_bank_transfer" />
+                                android:contentDescription="Bank Transfer Logo"
+                                android:src="@mipmap/ic_bank_transfer_list_item" />
 
                             <View
                                 android:layout_width="@dimen/spacing_large"

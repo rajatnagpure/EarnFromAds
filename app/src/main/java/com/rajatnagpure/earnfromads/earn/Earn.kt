@@ -7,18 +7,16 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import com.google.android.material.snackbar.Snackbar
-import com.rajatnagpure.earnfromads.R
 import com.unity3d.ads.IUnityAdsListener
 import com.unity3d.ads.UnityAds
 import com.unity3d.ads.UnityAds.FinishState
 import com.unity3d.ads.UnityAds.UnityAdsError
+import android.widget.*
+import com.rajatnagpure.earnfromads.R
 
 
 class Earn : AppCompatActivity() {
@@ -28,8 +26,9 @@ class Earn : AppCompatActivity() {
     private val testMode = false
     private val surfacingId = "Rewarded_Android"
     private var watchUnityAd: Button? = null
+    private var watchGoogleAd: Button? = null
     private var amountText: TextView? = null
-    private var startEarning: TextView? = null
+    private var videoLoading: TextView? = null
     private var sharedPreferences: SharedPreferences? = null
     private var myEdit:SharedPreferences.Editor? = null
 
@@ -43,20 +42,22 @@ class Earn : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbarTitle.text =resources.getString(R.string.earn);
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        startEarning = findViewById<TextView>(R.id.start_earning)
+        videoLoading = findViewById<TextView>(R.id.video_ready)
         anim = AlphaAnimation(0.0f, 1.0f)
         anim?.duration = 750
         anim?.startOffset = 20
         anim?.repeatMode = Animation.REVERSE
         anim?.repeatCount = Animation.INFINITE
-        startEarning?.startAnimation(anim)
-        startEarning?.text = "VIDEO LOADING..."
+        videoLoading?.startAnimation(anim)
+        videoLoading?.text = "VIDEO LOADING..."
 
         amountText = findViewById<TextView>(R.id.text_amount)
         watchUnityAd = findViewById<Button>(R.id.button_watch_unity_ad)
+        watchGoogleAd = findViewById(R.id.button_play_querka_quiz)
+        watchGoogleAd = findViewById<Button>(R.id.button_play_querka_quiz)
 
 
         // Unity Ads Part
@@ -73,6 +74,10 @@ class Earn : AppCompatActivity() {
             displayRewardedAd()
         }
 
+        watchGoogleAd?.setOnClickListener{ view ->
+            Toast.makeText(this, "Coming Soon...", Toast.LENGTH_LONG).show()
+        }
+
         val notLoading = findViewById<CardView>(R.id.not_loading)
         notLoading.setOnClickListener{
             val notLoadingIntent = Intent(this, NotLoading::class.java)
@@ -86,6 +91,7 @@ class Earn : AppCompatActivity() {
         myEdit!!.apply()
         amountText?.text = "%.2f".format(amount)
     }
+    ///////////////////////////// Unity Ads Part ///////////////////////////////
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             finish();
@@ -99,8 +105,8 @@ class Earn : AppCompatActivity() {
     }
     private inner class UnityAdsListener : IUnityAdsListener {
         override fun onUnityAdsReady(surfacingId: String) {
-            startEarning?.clearAnimation()
-            startEarning?.text = "VIDEO READY"
+            videoLoading?.clearAnimation()
+            videoLoading?.text = "VIDEO READY"
         }
         override fun onUnityAdsStart(surfacingId: String) {}
         override fun onUnityAdsFinish(surfacingId: String, finishState: FinishState) {
